@@ -3,7 +3,8 @@ Micro-Grids
 
 ### Description
 
-The Micro-Grid library main objective is to provide an open source alternative to the problem of sizing and dispatch of energy in micro-grids in isolated places. It’s written in python(pyomo) and use excel and text files as input and output data handling and visualization.
+The Micro-Grid library main objective is to provide an open source alternative to the problem of sizing and dispatch of energy in micro-grids in isolated places. It’s written in python(pyomo) and use excel and text files as input and output data handling and visualization. This Branch was created to contain the data for the ECOS 2018 paper "Techno-economic evaluation of rural electrification in Bolivia: lessons learned from
+the “El Espino” micro-grid". There has been a change in the way the PV Power is calculated from the original paper.
 
 Main features:
 
