@@ -11,8 +11,8 @@ def Model_Creation(model, Renewable_Penetration,Battery_Independency):
     :param model: Pyomo model as defined in the Micro-Grids library.
     
     '''
-    from pyomo.environ import  Param, RangeSet, NonNegativeReals, Var
-    from Initialize import Initialize_years, Initialize_Demand, Battery_Reposition_Cost, Initialize_Renewable_Energy, Marginal_Cost_Generator_1,Min_Bat_Capacity # Import library with initialitation funtions for the parameters
+    from pyomo.environ import  Param, RangeSet, NonNegativeReals, Var, Binary
+    from Initialize import Initialize_years, Initialize_Demand, Battery_Reposition_Cost, Initialize_Renewable_Energy, Marginal_Cost_Generator_1,Min_Bat_Capacity,Initialize_Deferable_Days # Import library with initialitation funtions for the parameters
 
     # Time parameters
     model.Periods = Param(within=NonNegativeReals) # Number of periods of analysis of the energy variables
@@ -21,6 +21,10 @@ def Model_Creation(model, Renewable_Penetration,Battery_Independency):
     model.Scenarios = Param() 
     model.Renewable_Source = Param()
     model.Generator_Type = Param()
+    ###### 
+    model.Deferable_Time = Param()
+    model.Deferable_Days =  Param(within=NonNegativeReals, 
+                                  initialize=Initialize_Deferable_Days)
     
     #SETS
     model.periods = RangeSet(1, model.Periods) # Creation of a set from 1 to the number of periods in each year
@@ -28,7 +32,7 @@ def Model_Creation(model, Renewable_Penetration,Battery_Independency):
     model.scenario = RangeSet(1, model.Scenarios) # Creation of a set from 1 to the numbero scenarios to analized
     model.renewable_source = RangeSet(1, model.Renewable_Source)
     model.generator_type = RangeSet(1, model.Generator_Type)    
-
+    model.deferable_time_set = RangeSet(1,model.Deferable_Days )
 
     # PARAMETERS
     model.Scenario_Weight = Param(model.scenario, within=NonNegativeReals) #########
@@ -85,9 +89,11 @@ def Model_Creation(model, Renewable_Penetration,Battery_Independency):
     model.Maintenance_Operation_Cost_Battery = Param(within=NonNegativeReals) # Percentage of the total investment spend in operation and management of solar panels in each period in %
     model.Maintenance_Operation_Cost_Generator = Param(model.generator_type,
                                                        within=NonNegativeReals) # Percentage of the total investment spend in operation and management of solar panels in each period in %
+    
     model.Discount_Rate = Param() # Discount rate of the project in %
-    
-    
+    #######
+    model.Energy_Deferable = Param()
+    model.Power_Deferable = Param()
        
 
     # VARIABLES
@@ -125,7 +131,10 @@ def Model_Creation(model, Renewable_Penetration,Battery_Independency):
     model.Lost_Load = Var(model.scenario, model.periods, within=NonNegativeReals) # Energy not suply by the system kWh
     model.Energy_Curtailment = Var(model.scenario, model.periods, within=NonNegativeReals) # Curtailment of solar energy in kWh
     model.Scenario_Lost_Load_Cost = Var(model.scenario, within=NonNegativeReals) ####    
-
+    
+    # new
+    model.Deferrable_Demand = Var(model.scenario,model.periods, within=NonNegativeReals)
+    model.Deferable_Load_Binary = Var(model.scenario, model.periods, within=Binary)
     # Variables associated to the project
     model.Scenario_Net_Present_Cost = Var(model.scenario, within=NonNegativeReals) ####
     model.Initial_Inversion = Var(within=NonNegativeReals)

@@ -117,7 +117,7 @@ def Energy_balance(model, s, t): # Energy balance
     Generator_Energy = sum(model.Generator_Energy[i] for i in foo)  
     
     
-    return model.Energy_Demand[s,t] == (Total_Renewable_Energy + Generator_Energy 
+    return model.Energy_Demand[s,t] + model.Deferrable_Demand[s,t] == (Total_Renewable_Energy + Generator_Energy 
             - model.Energy_Battery_Flow_In[s,t] + model.Energy_Battery_Flow_Out[s,t] 
             + model.Lost_Load[s,t] - model.Energy_Curtailment[s,t])
 
@@ -256,4 +256,21 @@ def Battery_Min_Capacity(model):
        
     return   model.Battery_Nominal_Capacity >= model.Battery_Min_Capacity
 
-
+def Deferable_Energy_Constraint(model, s,d):
+    
+    initial = 1 + 24*(d-1)
+    end = 24*d +1
+    periods = range(initial,end)
+    
+    foo = []
+    for i in periods:
+        foo.append((s,i))
+    
+    return sum(model.Deferrable_Demand[s,t] for s,t in foo) == model.Energy_Deferable
+               
+def Deferable_Power_Max(model,s,t):
+    
+    return model.Deferrable_Demand[s,t] == model.Power_Deferable*model.Deferable_Load_Binary[s,t]
+    
+    
+    

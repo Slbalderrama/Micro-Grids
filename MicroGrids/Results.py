@@ -58,11 +58,13 @@ def Load_results1(instance):
     Energy_Demand = instance.Energy_Demand.extract_values()
     SOC = instance.State_Of_Charge_Battery.get_values()
     Generator_Energy = instance.Generator_Energy.get_values()
+    Deferrable_Load = instance.Deferrable_Demand.get_values()
+#    Deferrable_Binary = instance.Deferable_Load_Binary.get_values()
     
     
     Total_Generator_Energy = {}
     Total_Fuel = {}
-    
+    Total_Demand = {}
     
     for s in range(1, Number_Scenarios + 1):
         for t in range(1, Number_Periods+1):
@@ -71,27 +73,33 @@ def Load_results1(instance):
                 foo.append((s,g,t))
             Total_Generator_Energy[s,t] = sum(Generator_Energy[i] for i in foo)
             Total_Fuel[s,t] = 0
-            
+
+    for s in range(1, Number_Scenarios + 1):
+        for t in range(1, Number_Periods+1):
+            Total_Demand[s,t] = Deferrable_Load[s,t] + Energy_Demand[s,t]     
             
     Scenarios_Periods = [[] for i in range(Number_Scenarios)]
     
     for i in range(0,Number_Scenarios):
         for j in range(1, Number_Periods+1):
             Scenarios_Periods[i].append((i+1,j))
+    
     foo=0        
     for i in columns:
-        Information = [[] for i in range(9)]
+        Information = [[] for i in range(11)]
         for j in  Scenarios_Periods[foo]:
             Information[0].append(Lost_Load[j])
             Information[1].append(Renewable_Energy[j]) 
             Information[2].append(Battery_Flow_Out[j]) 
             Information[3].append(Battery_Flow_in[j]) 
             Information[4].append(Curtailment[j]) 
-            Information[5].append(Energy_Demand[j]) 
+            Information[5].append(Total_Demand[j]) 
             Information[6].append(SOC[j])
             Information[7].append(Total_Generator_Energy[j])
             Information[8].append(Total_Fuel[j])
-        
+            Information[9].append(Energy_Demand[j])
+            Information[10].append( Deferrable_Load[j])
+            
         Scenarios=Scenarios.append(Information)
         foo+=1
     
@@ -106,6 +114,8 @@ def Load_results1(instance):
        index.append('SOC '+str(j))
        index.append('Gen energy '+str(j))
        index.append('Fuel '+str(j))
+       index.append('Partian energy demand '+str(j))
+       index.append('Deferrable energy demand '+str(j))
     Scenarios.index= index
      
     
@@ -814,7 +824,8 @@ def Integer_Time_Series(instance,Scenarios, S):
     Time_Series['Energy_Demand'] = Scenarios['Energy_Demand '+str(S)]
     Time_Series['State_Of_Charge_Battery'] = Scenarios['SOC '+str(S)] 
     Time_Series['Energy Diesel'] = Scenarios['Gen energy '+str(S)]
-    
+    Time_Series['Partian energy demand'] = Scenarios['Partian energy demand '+str(S)]
+
     return Time_Series
 
 def integer_Renewable_Energy(instance, Scenarios):
@@ -1342,8 +1353,7 @@ def Plot_Energy_Total(instance, Time_Series, plot, Plot_Date, PlotTime):
         ax3 = Fill[b].plot(style='b', linewidth=0)
         ax3.fill_between(Plot_Data.index, Fill[g].values, Fill[b].values,   
                          alpha=alpha_bat, color =C_Bat,edgecolor=C_Bat, hatch =hatch_b)
-        # Demand
-        Plot_Data['Energy_Demand'].plot(style='k', linewidth=2)
+        
         # Battery Charge        
         ax5= Plot_Data['Charge energy to the Battery'].plot(style='m', linewidth=0.5) # Plot the line of the energy flowing into the battery
         ax5.fill_between(Plot_Data.index, 0, 
@@ -1361,7 +1371,11 @@ def Plot_Energy_Total(instance, Time_Series, plot, Plot_Date, PlotTime):
                          alpha=alpha_cu, color=C_Cur,edgecolor= C_Cur, 
                          hatch =hatch_cu,
                          where=Fill[c].values>Plot_Data['Energy_Demand']) 
-           # Define name  and units of the axis
+        #Demand   
+        Plot_Data['Partian energy demand'].plot(style='r', linewidth=2)
+        Plot_Data['Energy_Demand'].plot(style='b', linewidth=2)
+        
+        # Define name  and units of the axis
         ax1.set_ylabel('Power (kW)')
         ax1.set_xlabel('Time')
         ax6.set_ylabel('Battery State of charge (kWh)')

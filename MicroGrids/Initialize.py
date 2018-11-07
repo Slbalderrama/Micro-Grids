@@ -140,3 +140,6 @@ def Min_Bat_Capacity(model):
 
     return  Available_Energy/(1-model.Deep_of_Discharge)
 
+def Initialize_Deferable_Days(model):
+    
+    return model.Periods/(24*model.Deferable_Time)
