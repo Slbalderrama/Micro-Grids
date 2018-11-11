@@ -256,6 +256,8 @@ def Battery_Min_Capacity(model):
        
     return   model.Battery_Nominal_Capacity >= model.Battery_Min_Capacity
 
+# new constraints
+
 def Deferable_Energy_Constraint(model, s,d):
     
     initial = 1 + 24*(d-1)
@@ -266,11 +268,11 @@ def Deferable_Energy_Constraint(model, s,d):
     for i in periods:
         foo.append((s,i))
     
-    return sum(model.Deferrable_Demand[s,t] for s,t in foo) == model.Energy_Deferable
+    return sum(model.Deferrable_Demand[s,t] for s,t in foo) == model.Energy_Deferable[s]
                
 def Deferable_Power_Max(model,s,t):
     
-    return model.Deferrable_Demand[s,t] == model.Power_Deferable*model.Deferable_Load_Binary[s,t]
+    return model.Deferrable_Demand[s,t] == model.Power_Deferable[s]*model.Deferable_Load_Binary[s,t]
     
     
     

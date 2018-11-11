@@ -6,9 +6,9 @@ param: StartDate := '21/03/2017 00:00:00';
 
 param: Delta_Time := 1.0;
 
-param: Battery_Invesment_Cost := 0.4; # 1
+param: Battery_Invesment_Cost := 0.55; # 1
 
-param: Battery_Electronic_Invesmente_Cost := 0.4;
+param: Battery_Electronic_Invesmente_Cost := 0.22;
 
 param: Maintenance_Operation_Cost_Battery:= 0.015;
 
@@ -32,7 +32,7 @@ param: Battery_Cycles := 5500; # 3
 
 param: Battery_Initial_SOC := 1;
 
-param: Scenarios := 3; ####
+param: Scenarios := 16; ####
 
 param: Renewable_Source := 1;
 
@@ -47,7 +47,7 @@ param: Renewable_Inverter_Efficiency :=
 param: Renewable_Invesment_Cost :=# 4
 
 
-1	1;
+1	1.5;
 
 param: Maintenance_Operation_Cost_Renewable := 
 
@@ -65,26 +65,71 @@ param: Maintenance_Operation_Cost_Generator :=
 1	0.045;
 
 param: Fuel_Cost := 
-1	0.88;
+1	0.68;
 
 param: Generator_Efficiency := 
 
-1	0.34;
+1	0.314;
 
 param: Low_Heating_Value := 
 1	9890;
 
 param: Scenario_Weight :=
 
-1	0.33
-2	0.33
-3	0.34;
+1	0.0625
+2	0.0625
+3	0.0625
+4	0.0625
+5	0.0625
+6	0.0625
+7	0.0625
+8	0.0625
+9	0.0625
+10	0.0625
+11	0.0625
+12	0.0625
+13	0.0625
+14	0.0625
+15	0.0625
+16	0.0625;
 
 
 # New parameters
 
 param: Deferable_Time := 1;
 
-param: Energy_Deferable := 9000;
+param: Energy_Deferable := 
+1	9000
+2	9000
+3	9000
+4	9000
+5	9000
+6	9000
+7	9000
+8	9000
+9	0
+10	0
+11	0
+12	0
+13	0
+14	0
+15	0
+16	0;
 
-param: Power_Deferable := 4500;
+param: Power_Deferable := 
+1	4500
+2	4500
+3	4500
+4	4500
+5	4500
+6	4500
+7	4500
+8	4500
+9	0
+10	0
+11	0
+12	0
+13	0
+14	0
+15	0
+16	0;

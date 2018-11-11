@@ -92,8 +92,8 @@ def Model_Creation(model, Renewable_Penetration,Battery_Independency):
     
     model.Discount_Rate = Param() # Discount rate of the project in %
     #######
-    model.Energy_Deferable = Param()
-    model.Power_Deferable = Param()
+    model.Energy_Deferable = Param(model.scenario)
+    model.Power_Deferable = Param(model.scenario)
        
 
     # VARIABLES
