@@ -1,5 +1,6 @@
 
 import pandas as pd
+from pyomo.environ import  value
 
 def Initialize_years(model, i):
 
@@ -141,5 +142,10 @@ def Min_Bat_Capacity(model):
     return  Available_Energy/(1-model.Deep_of_Discharge)
 
 def Initialize_Deferable_Days(model):
-    
-    return model.Periods/(24*model.Deferable_Time)
+    Periods = value(model.Periods)
+    if Periods % (24*model.Deferable_Time) == 0:
+        return model.Periods/(24*model.Deferable_Time)
+    else:
+        Days = model.Periods/(24*model.Deferable_Time)
+        Days = int(Days)
+        return value(Days) + 1 

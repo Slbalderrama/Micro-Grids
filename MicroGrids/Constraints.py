@@ -1,4 +1,5 @@
 # Objective funtion
+from pyomo.environ import  value
 
 def Net_Present_Cost(model): # OBJETIVE FUNTION: MINIMIZE THE NPC FOR THE SISTEM
     '''
@@ -260,15 +261,45 @@ def Battery_Min_Capacity(model):
 
 def Deferable_Energy_Constraint(model, s,d):
     
-    initial = 1 + 24*(d-1)
-    end = 24*d +1
-    periods = range(initial,end)
+    if value(model.Periods) % (24*model.Deferable_Time) == 0:
+        
+        initial = 1 + 24*(d-1)*model.Deferable_Time
+        end = 24*d*model.Deferable_Time +1
+        periods = range(initial,end)
+        
+        foo = []
+        for i in periods:
+            foo.append((s,i))
+        
+        return sum(model.Deferrable_Demand[s,t] for s,t in foo) == model.Energy_Deferable[s]
     
-    foo = []
-    for i in periods:
-        foo.append((s,i))
-    
-    return sum(model.Deferrable_Demand[s,t] for s,t in foo) == model.Energy_Deferable[s]
+    else:
+        if value(model.Deferable_Days)  == d:
+            
+            initial = 1 + 24*(d-1)*model.Deferable_Time
+            percentage = (value(model.Periods) % (24*model.Deferable_Time))/(model.Deferable_Time*24)
+            end = 1 + 24*(d-1)*model.Deferable_Time +model.Deferable_Time*24*percentage
+            end=int(end)
+            periods = range(initial,end)
+            print(periods)
+            foo = []
+            for i in periods:
+                foo.append((s,i))
+                
+            return sum(model.Deferrable_Demand[s,t] for s,t in foo) == model.Energy_Deferable[s]
+        else:
+            initial = 1 + 24*(d-1)*model.Deferable_Time
+            end = 24*d*model.Deferable_Time +1
+            periods = range(initial,end)
+        
+            foo = []
+            for i in periods:
+                foo.append((s,i))
+            
+            return sum(model.Deferrable_Demand[s,t] for s,t in foo) == model.Energy_Deferable[s]
+
+
+
                
 def Deferable_Power_Max(model,s,t):
     
