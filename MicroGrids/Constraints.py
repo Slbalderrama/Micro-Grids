@@ -286,7 +286,7 @@ def Deferable_Energy_Constraint(model, s,d):
             for i in periods:
                 foo.append((s,i))
                 
-            return sum(model.Deferrable_Demand[s,t] for s,t in foo) == model.Energy_Deferable[s]
+            return sum(model.Deferrable_Demand[s,t] for s,t in foo) == model.Energy_Deferable[s]*percentage
         else:
             initial = 1 + 24*(d-1)*model.Deferable_Time
             end = 24*d*model.Deferable_Time +1
