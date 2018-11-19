@@ -66,7 +66,9 @@ def Model_Resolution(model,Renewable_Penetration, Battery_Independency,datapath=
                                                  rule=Deferable_Energy_Constraint)
     model.DeferablePowerMax = Constraint(model.scenario, model.periods,
                                          rule=Deferable_Power_Max)     
-    instance = model.create_instance(datapath) # load parameters       
+    instance = model.create_instance(datapath) # load parameters
+
+       
     opt = SolverFactory('cplex') # Solver use during the optimization    
     results = opt.solve(instance, tee=True,options_string="mipgap=0.03") # Solving a model instance 
     instance.solutions.load_from(results)  # Loading solution into instance

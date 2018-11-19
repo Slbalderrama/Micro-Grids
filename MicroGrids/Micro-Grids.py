@@ -69,12 +69,11 @@ elif formulation =='Dispatch':
     instance = Model_Resolution_Dispatch(model)
     Time_Series = Load_results1_Dispatch(instance) # Extract the results of energy from the instance and save it in a excel file 
     Results = Load_results2_Dispatch(instance)
-
-     
+    
 # Energy Plot    
-S = 3 # Plot scenario
-Plot_Date = '24/12/2016 00:00:00' # Day-Month-Year
-PlotTime = 6# Days of the plot
+S = 1 # Plot scenario
+Plot_Date = '24/12/2017 00:00:00' # Day-Month-Year
+PlotTime = 1# Days of the plot
 Time_Series = Integer_Time_Series(instance,Scenarios, S) 
    
 plot = 'No Average' # 'No Average' or 'Average'

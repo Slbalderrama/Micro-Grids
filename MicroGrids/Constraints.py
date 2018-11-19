@@ -259,7 +259,7 @@ def Battery_Min_Capacity(model):
 
 # new constraints
 
-def Deferable_Energy_Constraint(model, s,d):
+def Deferable_Energy_Constraint(model,s,d):
     
     if value(model.Periods) % (24*model.Deferable_Time) == 0:
         
