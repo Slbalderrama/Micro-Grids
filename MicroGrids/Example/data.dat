@@ -32,7 +32,7 @@ param: Battery_Cycles := 5500; # 3
 
 param: Battery_Initial_SOC := 1;
 
-param: Scenarios := 16; ####
+param: Scenarios := 1; ####
 
 param: Renewable_Source := 1;
 
@@ -76,22 +76,7 @@ param: Low_Heating_Value :=
 
 param: Scenario_Weight :=
 
-1	0.0625
-2	0.0625
-3	0.0625
-4	0.0625
-5	0.0625
-6	0.0625
-7	0.0625
-8	0.0625
-9	0.0625
-10	0.0625
-11	0.0625
-12	0.0625
-13	0.0625
-14	0.0625
-15	0.0625
-16	0.0625;
+1	1;
 
 
 # New parameters
@@ -99,37 +84,8 @@ param: Scenario_Weight :=
 param: Deferable_Time := 2;
 
 param: Energy_Deferable := 
-1	45000
-2	45000
-3	45000
-4	45000
-5	45000
-6	45000
-7	45000
-8	45000
-9	0
-10	0
-11	0
-12	0
-13	0
-14	0
-15	0
-16	0;
+
+1	0;
 
 param: Power_Deferable := 
-1	4500
-2	4500
-3	4500
-4	4500
-5	4500
-6	4500
-7	4500
-8	4500
-9	0
-10	0
-11	0
-12	0
-13	0
-14	0
-15	0
-16	0;
+1	0;

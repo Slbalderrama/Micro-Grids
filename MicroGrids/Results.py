@@ -1330,7 +1330,8 @@ def Plot_Energy_Total(instance, Time_Series, plot, Plot_Date, PlotTime):
 #                Fill.loc[t,c2] =  Fill.loc[t,r]
 #            else:
 #                Fill.loc[t,c2] = Plot_Data['Energy_Demand'][t]
-        
+        size = [20,10]   
+        plt.figure(figsize=size)
         
         Fill[b] = ( Fill[g] + Plot_Data[b])
         # Renewable energy

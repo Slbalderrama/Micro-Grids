@@ -73,17 +73,15 @@ elif formulation =='Dispatch':
 # Energy Plot    
 S = 1 # Plot scenario
 Plot_Date = '24/12/2017 00:00:00' # Day-Month-Year
-PlotTime = 1# Days of the plot
+PlotTime = 6# Days of the plot
 Time_Series = Integer_Time_Series(instance,Scenarios, S) 
    
 plot = 'No Average' # 'No Average' or 'Average'
 Plot_Energy_Total(instance, Time_Series, plot, Plot_Date, PlotTime)
 
-
 # Data Analisys
 Print_Results(instance, Generator_Data, Data_Renewable, Results, LCOE)  
 Energy_Mix_S = Energy_Mix(instance,Scenarios,Scenario_Probability)
-
 
 #index = pd.DatetimeIndex(start='2017-01-01 00:00:00', periods=len(Time_Series), 
 #                                   freq=('H'))
